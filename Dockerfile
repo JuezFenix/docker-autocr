@@ -1,13 +1,11 @@
-FROM node:11.15.0-alpine
+FROM jlesage/baseimage-gui:alpine-3.9
 
 MAINTAINER JuezFenix
 
-# package version
-ARG NODE_VER="11.15.0"
-
 VOLUME /output 
 
-RUN apk update && apk add git && git clone https://github.com/Meshiest/autocr.git /autocr && cd /autocr && npm install && npm link \
+RUN apk update && apk add git && apk add --update nodejs nodejs-npm 
+RUN git clone https://github.com/Meshiest/autocr.git /autocr && cd /autocr && npm install && npm link \
     && npm install $(pwd) && autocr init
 COPY autocr.sh /autocr.sh
 
